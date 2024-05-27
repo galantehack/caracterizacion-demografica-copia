@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vista miembros</title>
+    <link rel="shortcut icon" href="templates/assets/img/Logotipo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .table-container {
+            overflow-x: auto; /* Agrega un scroll horizontal */
+            max-width: 100%; /* Para asegurarse de que la tabla no se extienda más allá del ancho de la ventana */
+        }
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+	<!-- Custom styles for this template -->
+	
+</head>
+<body>
+    <div class="table-container">  <!-- contenedor para poner scroll -->
+    <Center><img src="{{ url_for('static', filename='img/Logotipo.png') }}" alt="centered image" height="598" width="398"> <h1>REGISTRO DESARROLLO SUSTENTABLE</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th> Propia Individual</th>
+                <th>  Propia Familiar</th>
+                <th>Arriendo</th>
+                <th>Otros</th>
+                <th>El lote donde está ubicada la vivienda:  ¿Esta debidamente legalizado?</th>
+                <th>  ¿La vivienda tiene estratificación?</th>
+                <th>  ¿A que estrato pertenece la vivienda?</th>
+                <th> Medios de Transporte (Bus, Taxi, etc.)</th>    
+                <th> Centros Sociales, Culturales y/o  recreacionales</th>
+                <th> Parques, áreas deportivas y/o zonas verdes</th>
+                <th>  Iglesias, templos, espacios para cultos religiosos</th>
+                <th> A pie </th>
+                <th>Bicicleta</th>
+                <th>Motocicleta</th>
+                <th> Carro Particular</th>
+                <th> Transporte Público</th>
+                <th>  Tiempo promedio</th>
+                <th> Las condiciones de la institución educativa son adecuadas</th>
+                <th> A pie </th>
+                <th>Bicicleta</th>
+                <th>Motocicleta</th>
+                <th> Carro Particular</th>
+                <th> Transporte Público</th>
+                <th>  Tiempo promedio</th>
+                <th> A pie </th>
+                <th>Bicicleta</th>
+                <th>Motocicleta</th>
+                <th> Carro Particular</th>
+                <th> Transporte Público</th>
+                <th>  Tiempo promedio</th>
+                <th>  Las condiciones de la institución de salud son adecuadas</th>
+                <th>  Energía Electrica</th>    
+                <th>  Gas Natural</th>
+                <th> OAcueducto</th>
+                <th>  Alcantarillado</th>
+                <th>Aseo</th>
+                <th> Teléfonia Fija</th>
+                <th>Internet</th>
+                <th> Esta conforme con los servicios</th>
+                <th>accion</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for respuesta in vivienda%}  <!-- recorre la lista-->
+            <tr>
+                <td>{{respuesta.0}}</td> <!-- aqui esta el id-->
+                <td>{{respuesta.1}}</td>
+                <td>{{respuesta.2}}</td>
+                <td>{{respuesta.3}}</td>
+                <td>{{respuesta.4}}</td>
+                <td>{{respuesta.5}}</td>
+                <td>{{respuesta.6}}</td>
+                <td>{{respuesta.7}}</td>
+                <td>{{respuesta.8}}</td>
+                <td>{{respuesta.9}}</td>
+                <td>{{respuesta.10}}</td>
+                <td>{{respuesta.11}}</td>
+                <td>{{respuesta.12}}</td>
+                <td>{{respuesta.13}}</td>
+                <td>{{respuesta.14}}</td>
+                <td>{{respuesta.15}}</td>
+                <td>{{respuesta.16}}</td>
+                <td>{{respuesta.17}}</td>
+                <td>{{respuesta.18}}</td>
+                <td>{{respuesta.19}}</td>
+                <td>{{respuesta.20}}</td>
+                <td>{{respuesta.21}}</td>
+                <td>{{respuesta.22}}</td>
+                <td>{{respuesta.23}}</td>
+                <td>{{respuesta.24}}</td>
+                <td>{{respuesta.25}}</td>
+                <td>{{respuesta.26}}</td>
+                <td>{{respuesta.27}}</td>
+                <td>{{respuesta.28}}</td>
+                <td>{{respuesta.29}}</td>
+                <td>{{respuesta.30}}</td>
+                <td>{{respuesta.31}}</td>
+                <td>{{respuesta.32}}</td>
+                <td>{{respuesta.33}}</td>
+                <td>{{respuesta.34}}</td>
+                <td>{{respuesta.35}}</td>
+                <td>{{respuesta.36}}</td>
+                <td>{{respuesta.37}}</td>
+                <td>{{respuesta.38}}</td>
+                
+
+                <td>
+                    <a href="#" class="myButtonE">editar</a>
+                    <a href="#" class="myButton">borrar</a> 
+                    
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Exportar a Excel'
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Exportar a PDF'
+            }
+        ]
+        });
+    });
+</script>
+
+
+    
+</body>
+</html>

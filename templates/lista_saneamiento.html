@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vista miembros</title>
+    <link rel="shortcut icon" href="templates/assets/img/Logotipo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .table-container {
+            overflow-x: auto; /* Agrega un scroll horizontal */
+            max-width: 100%; /* Para asegurarse de que la tabla no se extienda más allá del ancho de la ventana */
+        }
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+	<!-- Custom styles for this template -->
+	
+</head>
+<body>
+    <div class="table-container">  <!-- contenedor para poner scroll -->
+    <Center><img src="{{ url_for('static', filename='img/Logotipo.png') }}" alt="centered image" height="598" width="398"> <h1>REGISTRO DESARROLLO SUSTENTABLE</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th>Acueducto público</th>
+                <th>  Acueducto comunal o veredal</th>
+                <th> Pozo con bomba o aljibe</th>
+                <th>Laguna o jagüey</th>
+                <th> Rio, quebrada o manantial </th>
+                <th>  Aguas Lluvias</th>
+                <th>  Carro tanque</th>
+                <th>  Agua Embotellada</th>    
+                <th>  Permanente (24 Horas)  </th>
+                <th>  Horarios Establecido</th>
+                <th>  De manera irregular</th>
+                <th> Recipiente o tanque con tapa</th>
+                <th>Recipiente o tranque sin tapa</th>
+                <th>No almacena</th>
+                <th>interior de la vivienda</th>
+                <th> Exterior de la vivienda bajo techo</th>
+                <th> Exterior de la vivienda sin techo</th>
+                <th>  La consumen sin tratamiento </th>
+                <th> La hierven previamente</th>    
+                <th>  La filtran</th>
+                <th> tratamiento con cloro</th>
+                <th>  De uso exclusivo de la familia</th>
+                <th> Compartido con personas de otras familias </th>
+                <th> La recoge el servicio de aseo municipa</th>
+                <th>Quema a campo abierto</th>
+                <th> La botan a campo abierto</th>
+                <th>La entierran </th>
+                <th> La tiran a fuentes de agua</th>
+                <th> ¿Realizan el proceso de separación de los residuos?</th>
+                <th> Respecto al servicio de energía  Posee el servicio</th>    
+                <th> Considera bueno el servicio </th>
+                <th> Valor promedio de pago</th>
+                <th>  Respecto al servicio de Internet  Posee el servicio</th>
+                <th> Considera bueno el servicio </th>
+                <th> Valor promedio de pago</th>
+                <th> Construida en barro</th>
+                <th> Construida en Paja </th>
+                <th>  Construida en Material</th>
+                <th>  Construida en Madera</th>
+                <th> Ubicada en zona de alto riesgo</th> 
+                 <th>accion</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for respuesta in saneamiento%}  <!-- recorre la lista-->
+            <tr>
+                <td>{{respuesta.0}}</td> <!-- aqui esta el id-->
+                <td>{{respuesta.1}}</td>
+                <td>{{respuesta.2}}</td>
+                <td>{{respuesta.3}}</td>
+                <td>{{respuesta.4}}</td>
+                <td>{{respuesta.5}}</td>
+                <td>{{respuesta.6}}</td>
+                <td>{{respuesta.7}}</td>
+                <td>{{respuesta.8}}</td>
+                <td>{{respuesta.9}}</td>
+                <td>{{respuesta.10}}</td>
+                <td>{{respuesta.11}}</td>
+                <td>{{respuesta.12}}</td>
+                <td>{{respuesta.13}}</td>
+                <td>{{respuesta.14}}</td>
+                <td>{{respuesta.15}}</td>
+                <td>{{respuesta.16}}</td>
+                <td>{{respuesta.17}}</td>
+                <td>{{respuesta.18}}</td>
+                <td>{{respuesta.19}}</td>
+                <td>{{respuesta.20}}</td>
+                <td>{{respuesta.21}}</td>
+                <td>{{respuesta.22}}</td>
+                <td>{{respuesta.23}}</td>
+                <td>{{respuesta.24}}</td>
+                <td>{{respuesta.25}}</td>
+                <td>{{respuesta.26}}</td>
+                <td>{{respuesta.27}}</td>
+                <td>{{respuesta.28}}</td>
+                <td>{{respuesta.29}}</td>
+                <td>{{respuesta.30}}</td>
+                <td>{{respuesta.31}}</td>
+                <td>{{respuesta.32}}</td>
+                <td>{{respuesta.33}}</td>
+                <td>{{respuesta.34}}</td>
+                <td>{{respuesta.35}}</td>
+                <td>{{respuesta.36}}</td>
+                <td>{{respuesta.37}}</td>
+                <td>{{respuesta.38}}</td>
+                <td>{{respuesta.39}}</td>
+
+                <td>
+                    <a href="#" class="myButtonE">editar</a>
+                    <a href="#" class="myButton">borrar</a> 
+                    
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Exportar a Excel'
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Exportar a PDF'
+            }
+        ]
+        });
+    });
+</script>
+
+
+    
+</body>
+</html>

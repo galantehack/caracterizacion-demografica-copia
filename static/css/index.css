@@ -1,0 +1,84 @@
+body {
+	margin: 40px auto;
+	background: #e8e8e8;
+	background-image: url("{{ url_for('static', filename='img/img_home.jpg') }}");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	font-family: Arial, sans-serif;
+
+  }
+  
+  .menudes {
+  position: relative;
+  overflow: hidden;
+  width: 800px;
+  height: 50px;
+  line-height: 30px;
+  margin: 10px auto;
+  border-radius: 10px;
+  background:linear-gradient(rgba(40, 94, 4, 0.47), rgba(22, 81, 4, 0.563));
+ 
+  
+  }
+  .menudes ul {
+	list-style: none;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	font-size: 0;
+  }
+  .menudes ul li {
+  display: inline-block;
+  width: 25%;
+  box-sizing: border-box;
+  font-size:20px;
+  }
+  .menudes ul li a {
+	color: #fff;
+	text-decoration: none;
+  }
+  .marca {
+  position: absolute;
+  bottom: 2px;
+  left: -12.5%; /* Al menos 1/2 del ancho de cada enlace */
+  width: 12.5%; /* 1/2 del ancho de cada enlace */
+  height: 4px;
+  background: white;
+  transition: 0.5s ease-in-out; 
+  }
+  .menudes ul li:nth-child(1):hover ~ .marca {
+  left: 6.25%; /* 1/4 Ancho del enlace */
+  }
+  .menudes ul li:nth-child(2):hover ~ .marca {
+  left: 31.25%; /* 1/4 Ancho del enlace + 1 vez ancho enlace */
+  }
+  .menudes ul li:nth-child(3):hover ~ .marca {
+  left: 56.25%; /* 1/4 Ancho del enlace + 2 veces ancho enlace */
+  }
+  .menudes ul li:nth-child(4):hover ~ .marca {
+  left: 81.5%; /* 1/4 Ancho del enlace + 3 veces ancho enlace */
+  }
+
+  .parrafo {
+	max-width: 750px;
+	padding: 20px;
+	background-color: rgba(0,0,0,0.6);
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	position: relative;
+    margin: 20px auto;
+    border-radius: 8px;
+	color: #ffcc4b;
+	font-size:16px;
+	text-align: justify;
+}
+
+h1{
+    text-align: center;
+    color:rgb(36, 64, 15);
+    margin: 8PX;
+}

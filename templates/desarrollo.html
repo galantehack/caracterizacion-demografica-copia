@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>DESRED | Cuestionario</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min2.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/avatar.png') }}" type="image/x-icon">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animate.min.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fontawesome-all.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylebox.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form-validation.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-starter.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sweetalert2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/colors/switch.css') }}">
+<!-- Color Alternatives -->
+<link href="{{ url_for('static', filename='css/colors/color-2.css') }}" rel="alternate stylesheet" type="text/css" title="color-2">
+<link href="{{ url_for('static', filename='css/colors/color-3.css') }}" rel="alternate stylesheet" type="text/css" title="color-3">
+<link href="{{ url_for('static', filename='css/colors/color-4.css') }}" rel="alternate stylesheet" type="text/css" title="color-4">
+<link href="{{ url_for('static', filename='css/colors/color-5.css') }}" rel="alternate stylesheet" type="text/css" title="color-5">
+<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/heroes/">
+
+
+	<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+	<!-- Custom styles for this template -->
+	<link href="{{ url_for('static', filename='css/heroes.css') }}" rel="stylesheet">
+
+
+
+
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div class="steps-area steps-area-fixed">
+			<div class="image-holder">
+				<img src="../static/img/side-img.jpg" alt="">
+			</div>
+			<div class="steps clearfix">
+				<ul class="tablist multisteps-form__progress">
+					<li class="multisteps-form__progress-btn js-active current">
+						<span>1</span>
+					</li>
+					<li class="multisteps-form__progress-btn js-active current">
+						<span>2</span>
+					</li>
+					<li class="multisteps-form__progress-btn js-active current">
+						<span>3</span>
+					</li>
+					<li class="multisteps-form__progress-btn">
+						<span>4</span>
+					</li>
+					<li class="multisteps-form__progress-btn last">
+						<span>5</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<form class="multisteps-form__form" action="/desarrollo" id="wizard" method="POST">
+			<div class="form-area position-relative">
+				<!-- div 1 -->
+				<Center><img src="{{ url_for('static', filename='img/Logotipo.png') }}" alt="centered image" height="598" width="398">
+					<BR></BR>
+					<h1>CUESTIONARIO</h1>
+					<h5>
+						<p style="color:grey;">CARACTERIZACIÓN POBLACIÓN AFRO DEL MUNICIPIO DE BECERRIL - CESAR.</p>
+					</h5>
+				</Center>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<div class="multisteps-form__panel js-active" data-animation="slideHorz">
+					<div class="wizard-forms">
+						<div class="inner pb-100 clearfix">
+							<div class="form-content pera-content">
+
+
+
+								
+								<div className="multisteps-form__panel" data-animation="slideHorz">
+                    
+									<div className="wizard-forms">
+										<div className="inner pb-100 clearfix">
+											<div className="form-content pera-content">
+												<div className="step-inner-content">
+													<span className="step-no bottom-line">PASO 3</span>
+													<div className="step-progress float-right">
+														<span>3 de 5 completado</span>
+														<div className="step-progress-bar">
+															<div class="progress">
+																<div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="20" aria-valuemin="0"
+																	aria-valuemax="100"></div>
+															</div>
+														</div>
+													</div>
+													<label>NUMERO DE FICHA</label>
+													<input type='text' name='id_encuesta' maxlength='10' style='width:200px;' />
+													<div class="alert alert-dark" role="alert"><button type="button"
+														class="btn btn-secondary" data-container="body" data-toggle="popover"
+														data-placement="right"
+														data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+														C
+												</button> PILAR 3. DESARROLLO SUSTENTABLE </div>
+										<li><b>C1.</b> ¿Que Actores y agentes externos reconoce en el territorio?:
+										<li>Pesca Artesanal
+											<input type="radio" name="c1_1" value="1" /> Sí
+											<input type="radio" name="c1_1" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li>Cacería Tradicional
+											<input type="radio" name="c1_2" value="1" /> Sí
+											<input type="radio" name="c1_2" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li>Agricolas
+											<input type="radio" name="c1_3" value="1" /> Sí
+											<input type="radio" name="c1_3" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li> Patios
+											<input type="radio" name="c1_4" value="1" /> Sí
+											<input type="radio" name="c1_4" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li>Minería
+
+											<input type="radio" name="c1_5" value="1" /> Sí
+											<input type="radio" name="c1_5" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li>Aprovechamiento Forestal
+											<input type="radio" name="c1_6" value="1" /> Sí
+											<input type="radio" name="c1_6" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li> Ecoturismo
+											<input type="radio" name="c1_7" value="1" /> Sí
+											<input type="radio" name="c1_7" value="2" /> No
+										</li>
+										</ul>
+										</li>
+										<li> Emprendimiento, comercio y  servicios
+											<input type="radio" name="c1_8" value="1" /> Sí
+											<input type="radio" name="c1_8" value="2" /> No
+										</li>
+													</ul>
+													&nbsp;
+													
+															
+		
+											</div>
+
+												</div>
+											 </div>
+										 </div>
+											
+									
+								
+								<div class="actions">
+									<ul>
+										<li><span className="js-btn-prev" title="BACK"><i className="fa fa-arrow-left"></i> CANCELAR</span></li>
+										<li><button type="submit" title="NEXT" value="registrar">REGISTRAR <i className="fa fa-arrow-right"></i></button></li>
+										</li>
+									</ul>
+								</div>	
+					</div>
+				</div>
+			</div>
+			
+			
+			
+	</div>
+	</form>
+	</div>
+	<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='jquery.validate.min.js') }}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='conditionize.flexible.jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='main.js') }}"></script>
+	<script src="{{ url_for('static', filename='switch.js') }}"></script>
+	<script src="{{ url_for('static', filename='form-validation.js') }}"></script>
+	<script src="{{ url_for('static', filename='sweetalert.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='sweetalert2.min.js') }}"></script>
+	
+
+
+	<script>
+		$(document).ready(function() {
+			// Función para avanzar al siguiente paso
+			function avanzarPaso() {
+				// Ocultar el panel actual y mostrar el siguiente
+				$('.multisteps-form__panel:visible').hide().next().show();
+			}
+		
+			// Función para retroceder al paso anterior
+			function retrocederPaso() {
+				// Ocultar el panel actual y mostrar el anterior
+				$('.multisteps-form__panel:visible').hide().prev().show();
+			}
+		
+			// Escuchar clics en el botón de "Siguiente"
+			$('.js-btn-next').click(function() {
+				avanzarPaso();
+			});
+		
+			// Escuchar clics en el botón de "Anterior"
+			$('.js-btn-prev').click(function() {
+				retrocederPaso();
+			});
+		
+			
+		});
+		
+	</script>
+
+	
+</body>
+
+</html>

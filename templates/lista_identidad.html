@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vista miembros</title>
+    <link rel="shortcut icon" href="templates/assets/img/Logotipo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .table-container {
+            overflow-x: auto; /* Agrega un scroll horizontal */
+            max-width: 100%; /* Para asegurarse de que la tabla no se extienda más allá del ancho de la ventana */
+        }
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+	<!-- Custom styles for this template -->
+	
+</head>
+<body>
+    <div class="table-container">  <!-- contenedor para poner scroll -->
+    <Center><img src="{{ url_for('static', filename='img/Logotipo.png') }}" alt="centered image" height="598" width="398"> <h1>REGISTRO DESARROLLO SUSTENTABLE</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                
+                <th> ¿Conoce algún suceso historico
+                    relevante? </th>
+                <th> ¿Conoce como fue el proceso de
+                    poblamiento de su comunidad? </th>
+                <th> ¿En su comunidad hay costumbres
+                    ancestrales</th>
+                <th>¿Tiene prácticas tradicionales de
+                    producción - PTP?</th>
+                <th> ¿Celebran momentos de alegría,
+                    tristeza o perdida en comunidad?
+                    </th>
+                <th>¿Se conservan prácticas Socio-productivas?</th>
+                <th> Minga </th>
+                <th> Mamuncia</th>
+                <th> Cambio de Mano</th>
+                <th> Préstamo de semilla y tierra </th>
+                <th> ¿Estaría de acuerdo en incluir una
+                    materia de etnoeducación en las clases
+                    de sus hijos?</th>
+                    <th>accion</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for respuesta in identidad%}  <!-- recorre la lista-->
+            <tr>
+                <td>{{respuesta.0}}</td> <!-- aqui esta el id-->
+                <td>{{respuesta.1}}</td>
+                <td>{{respuesta.2}}</td>
+                <td>{{respuesta.3}}</td>
+                <td>{{respuesta.4}}</td>
+                <td>{{respuesta.5}}</td>
+                <td>{{respuesta.6}}</td>
+                <td>{{respuesta.7}}</td>
+                <td>{{respuesta.8}}</td>
+                <td>{{respuesta.9}}</td>
+                <td>{{respuesta.10}}</td>
+                
+
+                <td>
+                    <a href="#" class="myButtonE">editar</a>
+                    <a href="#" class="myButton">borrar</a> 
+                    
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Exportar a Excel'
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Exportar a PDF'
+            }
+        ]
+        });
+    });
+</script>
+
+
+    
+</body>
+</html>

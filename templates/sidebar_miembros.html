@@ -1,0 +1,118 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+
+
+<!-- el estilo es para probar el ajuste de pa pagina para poner elementos al lado del side bar -->
+<style>
+  
+</style>
+
+
+
+<div class="container">
+<div class="side-bar">
+  
+    <div class="side-menu">
+      
+      <div class="brand">
+        <b>ADMINISTRADOR</b>
+      </div>
+      
+      <div class="userauth">
+        <img src="https://placehold.it/70x70">
+        <div class="username">DESARROLLO EN RED</div>
+      </div>
+      
+      <div class="menubuttons">
+        <a href="/sidebar_miembros"><i class="material-icons">group</i> <p class="p">MIEMBROS</p> </a>
+        <a href="/sidebar_territorio"><i class="material-icons">move_to_inbox</i> <p class="p">TERRITORIO</p></a>
+        <a href="/sidebar_identidad"><i class="fas fa-building"></i> <p p class="p">IDENTIDAD CULTURAL</p></a>
+        <a href="/sidebar_desarrollo"><i class="material-icons">account_box</i> <p class="p">DESARROLLO SUSTENTABLE</p> </a>
+        <a href="/sidebar_vivienda"><i class="material-icons">credit_card</i> <p class="p">BUEN VIVIR - VIVIENDA</p></a>
+        <a href="/sidebar_saneamiento"><i class="material-icons">autorenew</i> <p  class="p">BUEN VIVIR -SANEAMIENTO BÁSICO</p></a>
+      </div>
+      
+  </div>
+  
+  
+</div>
+ <!-- <div class="vertical-line"> <img src="{{ url_for('static', filename='img/grafico total.png') }}" alt="centered image" height="598" width="398"></div> probar el ajuste -->
+ <div class="table-container">  <!-- contenedor para poner scroll -->
+  <Center style="height: 80%;"> <h1>INTEGRANTES DE LA FAMILIA</h1>
+  <table id="example" class="display" style="width:100%">
+    <thead>
+      <tr>
+          <th>ID</th>
+          <th>Se auto reconoce </th>
+          <th>nombre</th>
+          <th>apellido</th>
+          <th>identidad</th>
+          <th>sexo</th>
+          <th>edad</th>
+          <th>escolaridad</th>
+          <th>direccion</th>
+          <th>barrio</th>
+          <th>sector</th>
+          <th>acciones</th>
+         
+      </tr>
+  </thead>
+  <tbody>
+      {% for miembro in miembros%}
+      <tr>
+          <td>{{miembro.7}}</td> <!-- aqui esta el id-->
+          <td>{{miembro.0}}</td>
+          <td>{{miembro.1}}</td>
+          <td>{{miembro.2}}</td>
+          <td>{{miembro.3}}</td>
+          <td>{{miembro.4}}</td>
+          <td>{{miembro.5}}</td>
+          <td>{{miembro.6}}</td>
+          <td>{{miembro.8}}</td>
+          <td>{{miembro.9}}</td>
+          <td>{{miembro.10}}</td>
+          <td>
+              <a href="#" class="myButtonE">editar</a>
+              <a href="#" class="myButton">borrar</a> 
+              
+          </td>
+          
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+</div>   
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+      $('#example').DataTable({
+          dom: 'Bfrtip',
+          buttons: [
+          {
+              extend: 'excelHtml5',
+              text: 'Exportar a Excel'
+              
+          },
+          {
+              extend: 'pdfHtml5',
+              text: 'Exportar a PDF'
+          }
+      ]
+      });
+  });
+</script>
+</div>

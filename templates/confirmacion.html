@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmar Eliminación</title>
+    <script>
+        function confirmarEliminar() {
+            var confirmacion = confirm("¿Estás seguro de que deseas eliminar esta encuesta?");
+            if (confirmacion) {
+                window.location.href = "{{ url_for('eliminar_encuesta', id_encuesta=id_encuesta) }}";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Confirmar Eliminación</h2>
+    <button onclick="confirmarEliminar()">Eliminar Encuesta</button>
+</body>
+</html>

@@ -135,18 +135,18 @@
 												DE RESPUESTA.</h7>
 		
 											<div class="my-3">
-												<li><b></b>¿En el hogar se autoreconocen como personas afrodecendientes:?:
-												<div class="form-check">
+											
+
+													<li class="reconoce"> ¿En el hogar se autoreconocen como personas afrodecendientes:?:
+														<ul>
+														<input type="radio" name="reconocimiento" value="1" /> Sí
+														<input type="radio" name="reconocimiento" value="2" /> No
+													</ul>
+													</li>
 													
-													<input id="credit" name="reconocimiento" type="radio"
-														class="form-check-input" checked required>
-													<label class="form-check-label" for="credit">SI</label>
-												</div>
-												<div class="form-check">
-													<input id="debit" name="reconocimiento" type="radio" class="form-check-input"
-														required>
-													<label class="form-check-label" for="debit">NO</label>
-												</div>	
+												
+												
+												
 
 												<h2>Nucleo Familiar</h2>
 												<div class="alert alert-dark" role="alert"><button type="button"
@@ -204,7 +204,8 @@
 																<option value="">Selecione...</option>
 																<option>primaria</option>
 																<option>secundaria</option>
-																<option>universitaria+</option>
+																<option>tecnologica</option>
+																<option>universitaria</option>
 															</select>
 
 
@@ -220,8 +221,8 @@
 												</div>
 												<div class="actions">
 													<ul>
-														<li><span className="js-btn-prev" title="BACK"><i className="fa fa-arrow-left"></i> FINALIZAR</span></li>
-													   <li><button type="submit" title="NEXT" value="registrar">REGISTRAT <i className="fa fa-arrow-right"></i></button></li>
+														<li><button  id="redirectButton" className="js-btn-prev" title="BACK"><i className="fa fa-arrow-left" ></i> FINALIZAR</button></li>
+													   <li><button type="submit" title="NEXT" value="registrar">REGISTRAR <i className="fa fa-arrow-right"></i></button></li>
 													</ul>
 												</div>
 											</div>
@@ -240,6 +241,12 @@
 	<script src="{{ url_for('static', filename='sweetalert.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='sweetalert2.min.js') }}"></script>
 	
+	<script>
+		// redirecciona el boton finalizar a el dashboard_1
+        document.getElementById("redirectButton").addEventListener("click", function() {
+            window.location.href = "{{ url_for('dashboard_1') }}";
+        });
+    </script>
 
 
 	<script>

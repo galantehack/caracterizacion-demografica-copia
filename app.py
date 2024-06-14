@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, render_template_string
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import matplotlib.pyplot as plt
+import io
+import base64
 app = Flask(__name__,  static_folder='static')   # importante para que tome los estilos en la carpeta static
 
 # Configuración de la base de datos MySQL
@@ -15,17 +17,22 @@ cursor = db.cursor()
 
 app.secret_key ="miclave"
 
-
+#pagina de inicio encuestador
 @app.route('/index')
 def index():
    
     return render_template('index.html')
+
+@app.route('/')
+def index2():
+   
+    return render_template('login.html')
 #LISTAR USUARIOS
 # Ruta para mostrar los datos de usuario en una tabla HTML
 @app.route('/sidebar_miembros')
 def listar():
     # Ejecutar consulta SQL para obtener los datos de usuario
-    cursor.execute("SELECT reconocimiento, nombre, apellido, identidad, sexo, edad, escolaridad, id, direccion, sector FROM miembros")
+    cursor.execute("SELECT reconocimiento, nombre, apellido, identidad, sexo, edad, escolaridad,  direccion, sector, id_encuesta FROM miembros")
     usuarios = cursor.fetchall()
 
     # Renderizar la plantilla con los datos de usuario
@@ -729,6 +736,229 @@ def actualizar_saneamiento():
     else:
         return 'Invalid request method', 405   
     
-       
+# dashboar   grafico   
+
+
+@app.route('/dashboard')
+def dashboard_1():
+    cursor = db.cursor()
+    cursor.execute("SELECT COUNT(*) FROM miembros ")
+    total_usuarios = cursor.fetchone()[0]
+    
+   
+    cursor.execute("SELECT COUNT(*) FROM miembros WHERE sexo = 'masculino'")
+    cantidad_hombres = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(*) FROM miembros WHERE sexo = 'femenino'")
+    cantidad_mujeres = cursor.fetchone()[0]
+    
+    #grafico por sexo
+    cursor.execute("SELECT sexo, COUNT(*) FROM miembros GROUP BY sexo")
+    gender_data = cursor.fetchall()
+    
+    labels = []
+    counts = []
+    for row in gender_data:
+        if row[0] == 'masculino':
+            labels.append('Masculino')
+        elif row[0] == 'femenino':
+            labels.append('Femenino')
+        counts.append(row[1])
+    
+    # Crear gráfica de torta por sexo
+    plt.figure(figsize=(4, 4))
+    plt.pie(counts, labels=labels, autopct=lambda p: f'{p:.1f}%\n({int(p*sum(counts)/100)})', colors=['blue', 'pink'])
+    plt.title("Población por género")
+    
+    # Guardar gráfica en un buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    plt.close()
+    
+    # Codificar gráfica en base64
+    grafica_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    
+    # Consulta para la distribución por reconocimiento
+    cursor.execute("SELECT reconocimiento, COUNT(*) FROM miembros GROUP BY reconocimiento")
+    reconocimiento_data = cursor.fetchall()
+    
+    labels2 = []
+    counts2 = []
+    for row in reconocimiento_data:
+        if row[0] == 'si':
+            labels2.append('Sí')
+        elif row[0] == 'no':
+            labels2.append('No')
+        counts2.append(row[1])
+    
+    # Crear gráfica de torta por reconocimiento
+    plt.figure(figsize=(4, 4))
+    plt.pie(counts2, labels=labels2, autopct=lambda p: f'{p:.1f}%\n({int(p*sum(counts2)/100)})', colors=['green', 'red'])
+    plt.title("Distribución por autoreconocimiento")
+    
+    # Guardar gráfica en un buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    plt.close()
+    
+    # Codificar gráfica en base64
+    grafica_base64_2 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    
+    
+     # Consulta para la distribución por escolaridad
+    cursor.execute("SELECT escolaridad, COUNT(*) FROM miembros GROUP BY escolaridad")
+    escolaridad_data = cursor.fetchall()
+    
+    labels3 = []
+    counts3 = []
+    for row in escolaridad_data:
+        if row[0] == 'Primaria':
+            labels3.append('Primaria')
+        elif row[0] == 'Secundaria':
+            labels3.append('Secundaria')
+        elif row[0] == 'Técnica':
+            labels3.append('Técnica')
+        elif row[0] == 'Tecnologica':
+            labels3.append('Tecnologica')
+        elif row[0] == 'Universitaria':
+            labels3.append('Universitaria')
+        counts3.append(row[1])
+    
+    # Crear gráfica de torta por escolaridad
+    plt.figure(figsize=(4, 4))
+    plt.pie(counts3, labels=labels3, autopct=lambda p: f'{p:.1f}%\n({int(p*sum(counts3)/100)})', colors=['Yellow', 'Beige', 'Fuchsia', 'orange', 'purple'])
+    plt.title("Distribución por escolaridad")
+    
+    # Guardar gráfica en un buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    plt.close()
+    
+    # Codificar gráfica en base64
+    grafica_base64_3 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    
+    #edades y sexo masculino
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 0 AND 14 AND sexo = 'masculino'")
+    sexo_edad1 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 15 AND 19 AND sexo = 'masculino'")
+    sexo_edad2 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 20 AND 29 AND sexo = 'masculino'")
+    sexo_edad3 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 30 AND 39 AND sexo = 'masculino'")
+    sexo_edad4 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 40 AND 49 AND sexo = 'masculino'")
+    sexo_edad5 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 50 AND 59 AND sexo = 'masculino'")
+    sexo_edad6 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 60 AND 74 AND sexo = 'masculino'")
+    sexo_edad7 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 75 AND 200 AND sexo = 'masculino'")
+    sexo_edad8 = cursor.fetchone()[0]
+    
+    
+   # creamos la grafica por edad y sexo
+    x = ["HOMBRES 0-14 años", "HOMBRES 15-19 años", "HOMBRES 20-29 años", "HOMBRES 30-39 años", "HOMBRES 40-49 años", "HOMBRES 50-59 años", "HOMBRES 60-74 años", "HOMBRES 75 años y más"]
+    y = [sexo_edad1, sexo_edad2, sexo_edad3, sexo_edad4, sexo_edad5, sexo_edad6, sexo_edad7, sexo_edad8]
+    
+    
+
+    fig, ax = plt.subplots(figsize=(12, 4))  # Ajustar el tamaño de la figura
+
+# Crear el gráfico de barras
+    bars = ax.bar(x=x, height=y)
+
+# Establecer el título del gráfico
+    ax.set_title("Gráficos por género masculino y edades")
+   
+    
+
+# Rotar las etiquetas del eje x para que se vean mejor
+    ax.set_xticklabels(x, rotation=10, ha="right", fontsize=6)
+
+# Añadir etiquetas de cantidad encima de cada barra
+    for bar in bars:
+       yval = bar.get_height()
+       ax.text(bar.get_x() + bar.get_width() / 2, yval, int(yval), va='bottom')
+    
+    
+     # Guardar gráfica en un buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    plt.close()
+    
+    # Codificar gráfica en base64
+    grafica_base64_4 = base64.b64encode(buf.getvalue()).decode('utf-8')
+
+    
+    
+    # consulta edad y sexo femenino
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 0 AND 14 AND sexo = 'femenino'")
+    sexo_edad9 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 15 AND 19 AND sexo = 'femenino'")
+    sexo_edad10 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 20 AND 29 AND sexo = 'femenino'")
+    sexo_edad11 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 30 AND 39 AND sexo = 'femenino'")
+    sexo_edad12 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 40 AND 49 AND sexo = 'femenino'")
+    sexo_edad13 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 50 AND 59 AND sexo = 'femenino'")
+    sexo_edad14 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 60 AND 74 AND sexo = 'femenino'")
+    sexo_edad15 = cursor.fetchone()[0]
+    
+    cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 75 AND 200 AND sexo = 'femenino'")
+    sexo_edad16 = cursor.fetchone()[0]
+    
+     # creamos la grafica por edad y sexo
+    x = ["MUJERES 0-14 años", "MUJERES 15-19 años", "MUJERES 20-29 años", "MUJERES 30-39 años", "MUJERES 40-49 años", "MUJERES 50-59 años", "MUJERES 60-74 años", "MUJERES 75 años y más"]
+    y = [sexo_edad9, sexo_edad10, sexo_edad11, sexo_edad12, sexo_edad13, sexo_edad14, sexo_edad15, sexo_edad16]
+    
+    fig, ax = plt.subplots(figsize=(12, 4))  # Ajustar el tamaño de la figura
+
+# Crear el gráfico de barras
+    bars = ax.bar(x=x, height=y, color="pink")
+
+# Establecer el título del gráfico
+    ax.set_title("Gráficos por género femenino y edades")
+    # Ajustar el rango del eje y
+    
+
+# Rotar las etiquetas del eje x para que se vean mejor
+    ax.set_xticklabels(x, rotation=10, ha="right", fontsize=6)
+
+# Añadir etiquetas de cantidad encima de cada barra
+    for bar in bars:
+       yval = bar.get_height()
+       ax.text(bar.get_x() + bar.get_width() / 2, yval, int(yval), va='bottom')
+    
+    
+     # Guardar gráfica en un buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    plt.close()
+    
+    # Codificar gráfica en base64
+    grafica_base64_5 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    
+    return render_template("dashboard.html", miembros=total_usuarios, cantidad_hombres=cantidad_hombres, cantidad_mujeres=cantidad_mujeres, grafica_base64=grafica_base64, grafica_base642=grafica_base64_2, grafica_base64_3=grafica_base64_3, sexo_edad1=sexo_edad1, grafica_base64_4=grafica_base64_4, grafica_base64_5=grafica_base64_5 )
+ 
 if __name__ == '__main__':
     app.run(debug=True)

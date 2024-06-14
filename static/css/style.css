@@ -118,6 +118,9 @@ h6 {
   margin: 0;
   font-family: "Jost", sans-serif;
 }
+.reconoce{
+  font-size:x-large;
+}
 
 .pb-100 {
   padding-bottom: 100px;

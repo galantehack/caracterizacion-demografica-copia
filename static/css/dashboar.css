@@ -1,0 +1,61 @@
+
+.caja {
+    background-color: #2fb32300;
+    border: 2px solid #1cbc210f;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin: 1px;
+    height: 8%;
+    width: 400px;
+    margin-left: 50px;
+     
+  }
+  
+  .caja .contador {
+    font-size: 4em;
+    font-weight: bold;
+  }
+  
+  .caja .titulo {
+    margin: 2px;
+    font-size: 1em;
+    color: #666;
+    font-weight: bold;
+    
+  }
+
+  .tarjetas{
+   display: flex;
+   align-items: center;
+   text-align: center;
+  
+    
+  }
+
+  .new-section {
+    margin-top: 20px;
+    display: flex;
+    height: 370px;
+    align-items: center;
+}
+.new-section .caja2 {
+   
+    padding: 10px;
+    margin-bottom: 10px;
+   
+    
+  
+}
+
+.barra {
+   
+  padding: 10px;
+  width: 100%;
+ 
+ 
+  
+
+}

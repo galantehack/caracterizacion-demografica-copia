@@ -39,6 +39,7 @@
         <a href="/sidebar_desarrollo"><i class="material-icons">account_box</i> <p class="p">DESARROLLO SUSTENTABLE</p> </a>
         <a href="/sidebar_vivienda"><i class="material-icons">credit_card</i> <p class="p">BUEN VIVIR - VIVIENDA</p></a>
         <a href="/sidebar_saneamiento"><i class="material-icons">autorenew</i> <p  class="p">BUEN VIVIR -SANEAMIENTO BÁSICO</p></a>
+        <a href="/territorio"><i class="material-icons">group_add</i> <p  class="p">REGISTRAR ENCUESTA</p></a>
       </div>
       
   </div>
@@ -60,8 +61,8 @@
           <th>edad</th>
           <th>escolaridad</th>
           <th>direccion</th>
-          <th>barrio</th>
           <th>sector</th>
+       
           <th>acciones</th>
          
       </tr>
@@ -69,17 +70,17 @@
   <tbody>
       {% for miembro in miembros%}
       <tr>
-          <td>{{miembro.7}}</td> <!-- aqui esta el id-->
-          <td>{{miembro.0}}</td>
-          <td>{{miembro.1}}</td>
-          <td>{{miembro.2}}</td>
-          <td>{{miembro.3}}</td>
-          <td>{{miembro.4}}</td>
-          <td>{{miembro.5}}</td>
-          <td>{{miembro.6}}</td>
-          <td>{{miembro.8}}</td>
-          <td>{{miembro.9}}</td>
-          <td>{{miembro.10}}</td>
+          <td data-label="ID">{{miembro.9}}</td> <!-- aqui esta el id-->
+          <td data-label="Se auto reconoce">{{miembro.0}}</td>
+          <td data-label="nombre">{{miembro.1}}</td>
+          <td data-label="apellido">{{miembro.2}}</td>
+          <td data-label="identidad">{{miembro.3}}</td>
+          <td data-label="sexo">{{miembro.4}}</td>
+          <td data-label="edad">{{miembro.5}}</td>
+          <td data-label="escolaridad">{{miembro.6}}</td>
+          <td data-label="direccion">{{miembro.7}}</td>
+          <td data-label="sector">{{miembro.8}}</td>
+          
           <td>
               <a href="#" class="myButtonE">editar</a>
               <a href="#" class="myButton">borrar</a> 

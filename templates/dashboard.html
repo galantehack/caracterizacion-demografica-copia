@@ -1,90 +1,141 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboar.css') }}">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
-
-
-
-
-
-
-
-<div class="container">
-<div class="side-bar">
-    <div class="estatico"></div>
-    <div class="side-menu">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Moderno</title>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        .container {
+            display: flex;
+        }
+        
+        .contenedor {
+            background-color: white;
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .tarjetas, .new-section, .barra {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .caja, .caja2, .caja_barra {
+            background-color: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            flex: 1 1 calc(33.333% - 40px); /* 3 columns layout with margin */
+            box-sizing: border-box;
+        }
+        .caja .contador {
+            font-size: 4em;
+            font-weight: bold;
+        }
+        .caja .titulo {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #666;
+            font-weight: bold;
+        }
+        .caja img, .caja2 img, .caja_barra img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 768px) {
+            .caja, .caja2, .caja_barra {
+                flex: 1 1 calc(50% - 40px); /* 2 columns layout with margin */
+            }
+        }
+        @media (max-width: 480px) {
+            .caja, .caja2, .caja_barra {
+                flex: 1 1 100%; /* 1 column layout */
+            }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <div class="side-bar">
       
-      <div class="brand">
-        <b>ADMINISTRADOR</b>
+        <div class="side-menu">
+          
+          <div class="brand">
+            <b>ADMINISTRADOR</b>
+          </div>
+          
+          <div class="userauth">
+            <img src="https://placehold.it/70x70">
+            <div class="username"><span>usuario  |  {{session["usuario"]}} <a href="{{url_for('logout')}}" class="mx-3 " style="color: red;" >cerrar</a> </span></div>
+          </div>
+          
+          <div class="menubuttons">
+            <a href="/sidebar_miembros"><i class="material-icons">group</i> <p class="p">MIEMBROS</p> </a>
+            <a href="/sidebar_territorio"><i class="material-icons">move_to_inbox</i> <p class="p">TERRITORIO</p></a>
+            <a href="/sidebar_identidad"><i class="fas fa-building"></i> <p p class="p">IDENTIDAD CULTURAL</p></a>
+            <a href="/sidebar_desarrollo"><i class="material-icons">account_box</i> <p class="p">DESARROLLO SUSTENTABLE</p> </a>
+            <a href="/sidebar_vivienda"><i class="material-icons">credit_card</i> <p class="p">BUEN VIVIR - VIVIENDA</p></a>
+            <a href="/sidebar_saneamiento"><i class="material-icons">autorenew</i> <p  class="p">BUEN VIVIR -SANEAMIENTO BÁSICO</p></a>
+            <a href="/territorio"><i class="material-icons">group_add</i> <p  class="p">REGISTRAR ENCUESTA</p></a>
+          </div>
+          
       </div>
       
-      <div class="userauth">
-        <img src="https://placehold.it/70x70">
-        <div class="username">DESARROLLO EN RED</div>
-      </div>
       
-      <div class="menubuttons">
-        <a href="/sidebar_miembros"><i class="material-icons">group</i> <p class="p">MIEMBROS</p> </a>
-        <a href="/sidebar_territorio"><i class="material-icons">move_to_inbox</i> <p class="p">TERRITORIO</p></a>
-        <a href="/sidebar_identidad"><i class="fas fa-building"></i> <p p class="p">IDENTIDAD CULTURAL</p></a>
-        <a href="/sidebar_desarrollo"><i class="material-icons">account_box</i> <p class="p">DESARROLLO SUSTENTABLE</p> </a>
-        <a href="/sidebar_vivienda"><i class="material-icons">location_city</i> <p class="p">BUEN VIVIR - VIVIENDA</p></a>
-        <a href="/sidebar_saneamiento"><i class="material-icons">autorenew</i> <p  class="p">BUEN VIVIR -SANEAMIENTO BÁSICO</p></a>
-        <a href="/registrar"><i class="material-icons">build</i> <p  class="p">CONFIGURACION</p></a>
-      </div>
-      
-  </div>
-
+    </div>
+    <div class="contenedor">
+        <section class="tarjetas">
+            <div class="caja">
+                <i class="material-icons" style="font-size:48px">group</i>
+                <p class="titulo">TOTAL PERSONAS</p>
+                <span class="contador">{{miembros}}</span>
+            </div>
+            <div class="caja">
+                <i class="material-icons" style="font-size:48px">sentiment_very_satisfied</i>
+                <p class="titulo">MUJERES - HOMBRES</p>
+                <span class="contador">{{cantidad_mujeres}} - {{ cantidad_hombres }}</span>
+            </div>
+        </section>
+        <section class="new-section">
+            <div class="caja2">
+                <img src="data:image/png;base64,{{ grafica_base64 }}" alt="Gráfico de distribución por género">
+            </div>
+            <div class="caja2">
+                <img src="data:image/png;base64,{{ grafica_base642 }}" alt="Gráfico de distribución por reconocimiento">
+            </div>
+            <div class="caja2">
+                <img src="data:image/png;base64,{{ grafica_base64_3 }}" alt="Gráfico de distribución por escolaridad">
+            </div>
+        </section>
+        
+        <section class="barra">
+          <div class="caja_barra">
+              <img src="data:image/png;base64,{{ grafica_base64_4 }}" alt="Gráfico de distribución por edad y sexo (Hombres)">
+          </div>
+      </section>
+      <section class="barra">
+          <div class="caja_barra">
+              <img src="data:image/png;base64,{{ grafica_base64_5 }}" alt="Gráfico de distribución por edad y sexo (Mujeres)">
+          </div>
+      </section>Files
+        Go to file
+        t
+        static
+        templates
+        index.html
+        tasks.html
+        app.py
+        
+    </div>
 </div>
-<div class="contenedor">
-<section class="tarjetas">
-<div class="caja">
-    <span class="contador">{{miembros}}</span>
-    <p class="titulo">TOTAL PERSONAS</p>
-    
-</div>
-<div class="caja">
-  <span class="contador"> {{cantidad_mujeres}} - {{ cantidad_hombres }}</span>
-  <p class="titulo">MUJERES - HOMBRES</p>
-  
- 
-
-
-
-
-
-</section>
-<section class="new-section">
-  <div class="caja2">
-  <img src="data:image/png;base64,{{ grafica_base64 }}" alt="Gráfico de distribución por género">
-</div>
-<div class="caja2">
-  <img src="data:image/png;base64,{{ grafica_base642 }}" alt="Gráfico de distribución por reconocimiento">
-</div>
-  <div class="caja2">
-  <img src="data:image/png;base64,{{ grafica_base64_3 }}" alt="Gráfico de distribución por escolaridad">
-</div>
-   
-<!-- aqui vamos a poner el grafico por edad y sexo -->
-</section>
-<section class="barra">
-<div class="caja_barra">
-  <img src="data:image/png;base64,{{ grafica_base64_4 }}" alt="Gráfico de distribución por reconocimiento">
-</div>
-</section>
-
-<section class="barra">
-  <div class="caja_barra">
-    <img src="data:image/png;base64,{{ grafica_base64_5 }}" alt="Gráfico de distribución por reconocimiento">
-  </div>
-  </section>
-
-</div>
+</body>
+</html>

@@ -4,7 +4,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import matplotlib.pyplot as plt
 import io
 import base64
+from functools import wraps
+from flask_login import login_required
+
+
 app = Flask(__name__,  static_folder='static')   # importante para que tome los estilos en la carpeta static
+import matplotlib
+matplotlib.use('Agg')
+#la configuración app = Flask(__name__, static_folder='static') instancia de la aplicación Flask, asegura que Flask pueda servir archivos estáticos correctamente, y matplotlib.use('Agg') configura Matplotlib para generar gráficos de manera adecuada en un entorno sin interfaz gráfica.
 
 # Configuración de la base de datos MySQL
 db = mysql.connector.connect (
@@ -17,19 +24,42 @@ cursor = db.cursor()
 
 app.secret_key ="miclave"
 
+#funcion para crear el decorador para proteger las rutas 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('id_rol') != 1:
+            
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def user_required(f):
+    @wraps(f)
+    def decorated_function2(*args, **kwargs):
+        if session.get('id_rol') != 2 and  session.get('id_rol') != 1:
+            
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function2
+
 #pagina de inicio encuestador
 @app.route('/index')
+@user_required
 def index():
    
     return render_template('index.html')
 
+
 @app.route('/')
+@user_required
 def index2():
    
     return render_template('login.html')
 #LISTAR USUARIOS
 # Ruta para mostrar los datos de usuario en una tabla HTML
 @app.route('/sidebar_miembros')
+@user_required
 def listar():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT reconocimiento, nombre, apellido, identidad, sexo, edad, escolaridad,  direccion, sector, id_encuesta FROM miembros")
@@ -40,6 +70,7 @@ def listar():
 
 
 @app.route("/Agmiembros",  methods=["GET", "POST"])
+@user_required
 def Agmiembros():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        reconocimiento =  ','.join(request.form.getlist("reconocimiento"))
@@ -55,12 +86,13 @@ def Agmiembros():
        id_encuesta = request.form["id_encuesta"]
        cursor.execute("INSERT INTO miembros (reconocimiento, nombre, apellido, identidad, sexo, edad, escolaridad, direccion, sector, id_encuesta)  VALUE (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (reconocimiento, nombre, apellido, identidad, sexo, edad, escolaridad, direccion, sector, id_encuesta)) 
        db.commit()  #se confirman todos los cambios pendientes realizados
-       return redirect(url_for("Agmiembros")) # redirije a la pagina index despues del proceso 
+       return redirect(url_for("Agmiembros")) # redirije a la pagina despues del proceso 
     else:
       return render_template("Agmiembros.html")
   
 # ENCUESTA DE TERRITORIO   
 @app.route("/territorio",  methods=["GET", "POST"])
+@user_required
 def territorio():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        a1 =  ','.join(request.form.getlist("a1"))
@@ -87,6 +119,7 @@ def territorio():
   
   #listar territorio
 @app.route('/sidebar_territorio')
+@user_required
 def lista_territorio():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT a1, a2, a3, a4, a5_1, a5_2, a5_3, a5_4, a5_5, a5_6 , a6, id_encuesta FROM territorio")
@@ -99,6 +132,7 @@ def lista_territorio():
   
   #ENCUESTA IDENTIDAD
 @app.route("/identidad",  methods=["GET", "POST"])
+@user_required
 def identidad():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        b1 =  ','.join(request.form.getlist("b1"))
@@ -124,6 +158,7 @@ def identidad():
     
 # listar identidad
 @app.route('/sidebar_identidad')
+@user_required
 def lista_identidad():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT b1, b2, 	b3, b4, b5, b6_1, b6_2, b6_3, b6_4, b6_5, b7, id_encuesta FROM identidad")
@@ -136,6 +171,7 @@ def lista_identidad():
 
 # ENCUESTA DE DESARROLLO
 @app.route("/desarrollo", methods=["GET", "POST"])
+@user_required
 def desarrollo():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        c1_1 =  ','.join(request.form.getlist("c1_1"))
@@ -158,6 +194,7 @@ def desarrollo():
   
 #LISTAR ENCUESTA DESARROLLO
 @app.route('/sidebar_desarrollo')
+@user_required
 def lista_desarrollo():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT c1_1, c1_2, 	c1_3, c1_4, c1_5, c1_6, c1_7, c1_8, id_encuesta FROM desarrollo")
@@ -171,6 +208,7 @@ def lista_desarrollo():
   
  # encuesta vivienda 
 @app.route("/vivienda", methods=["GET", "POST"])
+@user_required
 def vivienda():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        
@@ -225,6 +263,7 @@ def vivienda():
 
      #listar vivienda
 @app.route('/sidebar_vivienda')
+@user_required
 def lista_vivienda():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT d1_1, d1_2, d1_3, d1_4, d2_1, d2_2, d2_3, d3_1, d3_2, d3_3, d3_4, d4_1, d4_2, d4_3, d4_4 , d4_5, d4_6, d4_7, d5_1, d5_2, d5_3, d5_4, d5_5, d5_6, d6_1, d6_2, d6_3, d6_4, d6_5, d6_6, d6_7, d7_1, d7_2, d7_3, d7_4, d7_5 , d7_6, d7_7, d7_8, id_encuesta FROM vivienda")
@@ -239,6 +278,7 @@ def lista_vivienda():
     
   # encuesta saneamiento  
 @app.route("/saneamiento", methods=["GET", "POST"])
+@user_required
 def saneamiento():
     if request.method == "POST":   #  permite al servidor distinguir entre las solicitudes en las que el usuario está enviando datos al servidor (POST) 
        
@@ -298,6 +338,7 @@ def saneamiento():
   
      #listar saneamiento
 @app.route('/sidebar_saneamiento')
+@user_required
 def lista_saneamiento():
     # Ejecutar consulta SQL para obtener los datos de usuario
     cursor.execute("SELECT e1_1, e1_2, e1_3, e1_4, e1_5, e1_6, e1_7, e1_8, e2_1, e2_2, e2_3, e3_1, e3_2, e3_3, e4_1, e4_2, e4_3, e5_1, e5_2, e5_3, e5_4, e6_1, e6_2, e7_1, e7_2, e7_3, e7_4, e7_5, e8, e9_1, e9_2, e9_3, e10_1, e10_2, e10_3, e11_1, e11_2, e11_3, e11_4, e11_5, id_encuesta FROM saneamiento")
@@ -306,17 +347,13 @@ def lista_saneamiento():
     # Renderizar la plantilla con los datos de usuario
     return render_template('sidebar_saneamiento.html', saneamiento=respuesta)  
   
-    
-#ruta sidebar
-@app.route('/sidebar')
-def sidebar():
-   
-    return render_template('sidebar.html')    
-    
-    
+
+
+
     
 #ruta loging - validacion de usuario
 @app.route('/login', methods=["GET", "POST"])
+
 def login():
     #validamos si usuario y contraseña enviados del formulario coinciden con lo de la base de datos 
     if request.method == "POST" and "usuario" in request.form and "contraseña" in request.form:
@@ -324,26 +361,37 @@ def login():
         contraseña = request.form["contraseña"]
         #cuando se llama usuario y contraseña se realñiza el desencriptado con check_password_hash(contraseña, contraseña)
         #contraseña con hash y la que se pone 
+        
         cursor.execute("SELECT * FROM login WHERE usuario= %s AND contraseña = %s", (usuario, check_password_hash(contraseña, contraseña)))
         acceso = cursor.fetchone()
+       
         if acceso :
            session["logeado"] = True
            session["id"] = acceso[4]
            session["id_rol"]= acceso[5]
+           session["usuario"]= acceso[0]
            if session ["id_rol"] ==1:
                return render_template('sidebar_territorio.html')
            if session ["id_rol"] ==2:
                return render_template('index.html')
+               
            
         else:
    
            return render_template('login.html', mensaje="credenciales  incorrectas")  
+       
     else:
         return render_template('login.html')    
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 #ruta registrar login
 @app.route("/registrar", methods=["GET", "POST"])
+@admin_required
+
 def registrar():
     if request.method == "POST": 
        usuario =  request.form["usuario"]
@@ -358,9 +406,13 @@ def registrar():
        return redirect(url_for("registrar")) 
     else:
        return render_template('registrar.html')   
+   
+
+
 
 #ruta borrar
 @app.route('/borrar/<int:id_encuesta>', methods=['GET'])
+@user_required
 def borrar(id_encuesta):
     cursor.execute("DELETE FROM territorio WHERE id_encuesta = %s" ,(id_encuesta,))
     db.commit() 
@@ -374,6 +426,7 @@ def borrar(id_encuesta):
   
 # LLAMAR DATOS DE TERRITORIO PARA EDITAR 
 @app.route("/editar_territorio/<int:id_encuesta>") #se acede a la ruta pasando el parametro id_encuesta
+@user_required
 def editar_territorio(id_encuesta):
     cursor = db.cursor()
     try:
@@ -392,6 +445,7 @@ def editar_territorio(id_encuesta):
 		
 # ACCION QUE ACTUALIZA LOS DATOS DE TERRITORIO EDITAR
 @app.route("/actualizar_territorio", methods=['GET', 'POST'])
+@user_required
 def actualizar_territorio():
     if request.method == 'POST':
         cursor = db.cursor()
@@ -428,6 +482,7 @@ def actualizar_territorio():
 
 # LLAMAR DATOS A EDITAR DE IDENTIDAD 
 @app.route("/editar_identidad/<int:id_encuesta>")
+@user_required
 def editar_identidad(id_encuesta):
     try:
         with db.cursor() as cursor:
@@ -444,6 +499,7 @@ def editar_identidad(id_encuesta):
         
 # ACTUALIZAR IDENTIDAD 
 @app.route("/actualizar_identidad", methods=['GET', 'POST'])
+@user_required
 def actualizar_identidad():
     if request.method == 'POST':
         try:
@@ -491,6 +547,7 @@ def actualizar_identidad():
 
 # # LLAMAR DATOS A EDITAR DE DESARROLLO 
 @app.route("/editar_desarrollo/<int:id_encuesta>")
+@user_required
 def editar_desarrollo(id_encuesta):
     try:
         with db.cursor() as cursor:
@@ -507,6 +564,7 @@ def editar_desarrollo(id_encuesta):
         
 # ACTUALIZAR DESARROLLO 
 @app.route("/actualizar_desarrollo", methods=['GET', 'POST'])
+@user_required
 def actualizar_desarrollo():
     if request.method == 'POST':
         try:
@@ -552,6 +610,7 @@ def actualizar_desarrollo():
     
 # # LLAMAR DATOS A EDITAR DE VIVIENDA 
 @app.route("/editar_vivienda/<int:id_encuesta>")
+@user_required
 def editar_vivienda(id_encuesta):
     try:
         with db.cursor() as cursor:
@@ -568,6 +627,7 @@ def editar_vivienda(id_encuesta):
         
 # ACTUALIZAR VIVIENDA 
 @app.route("/actualizar_vivienda", methods=['GET', 'POST'])
+@user_required
 def actualizar_vivienda():
     if request.method == 'POST':
         try:
@@ -643,6 +703,7 @@ def actualizar_vivienda():
     
 # # LLAMAR DATOS A EDITAR DE SANEAMIENTO 
 @app.route("/editar_saneamiento/<int:id_encuesta>")
+@user_required
 def editar_saneamiento(id_encuesta):
     try:
         with db.cursor() as cursor:
@@ -660,6 +721,7 @@ def editar_saneamiento(id_encuesta):
 
 # ACTUALIZAR SANEAMIENTO 
 @app.route("/actualizar_saneamiento", methods=['GET', 'POST'])
+@user_required
 def actualizar_saneamiento():
     if request.method == 'POST':
         try:
@@ -740,6 +802,7 @@ def actualizar_saneamiento():
 
 
 @app.route('/dashboard')
+@admin_required
 def dashboard_1():
     cursor = db.cursor()
     cursor.execute("SELECT COUNT(*) FROM miembros ")
@@ -775,9 +838,10 @@ def dashboard_1():
     buf.seek(0)
     plt.close()
     
+    
     # Codificar gráfica en base64
     grafica_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
-    
+   
     # Consulta para la distribución por reconocimiento
     cursor.execute("SELECT reconocimiento, COUNT(*) FROM miembros GROUP BY reconocimiento")
     reconocimiento_data = cursor.fetchall()
@@ -801,6 +865,7 @@ def dashboard_1():
     plt.savefig(buf, format="png")
     buf.seek(0)
     plt.close()
+    
     
     # Codificar gráfica en base64
     grafica_base64_2 = base64.b64encode(buf.getvalue()).decode('utf-8')
@@ -838,7 +903,7 @@ def dashboard_1():
     
     # Codificar gráfica en base64
     grafica_base64_3 = base64.b64encode(buf.getvalue()).decode('utf-8')
-    
+   
     #edades y sexo masculino
     cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 0 AND 14 AND sexo = 'masculino'")
     sexo_edad1 = cursor.fetchone()[0]
@@ -925,7 +990,7 @@ def dashboard_1():
     
     cursor.execute("SELECT COUNT(*)  FROM  miembros WHERE edad BETWEEN 75 AND 200 AND sexo = 'femenino'")
     sexo_edad16 = cursor.fetchone()[0]
-    
+    cursor.close()
      # creamos la grafica por edad y sexo
     x = ["MUJERES 0-14 años", "MUJERES 15-19 años", "MUJERES 20-29 años", "MUJERES 30-39 años", "MUJERES 40-49 años", "MUJERES 50-59 años", "MUJERES 60-74 años", "MUJERES 75 años y más"]
     y = [sexo_edad9, sexo_edad10, sexo_edad11, sexo_edad12, sexo_edad13, sexo_edad14, sexo_edad15, sexo_edad16]

@@ -24,7 +24,8 @@ body{
 		  <li><a href="/index">INICIO</a></li>
 		  <li><a href="/territorio">ENCUESTAR</a></li>
 		  <li><a href="dashboard">VER INFORMACION</a></li>
-		  <li><a href="">CONTACTO</a></li>
+		  
+		  <li><span>usuario  |  {{session["usuario"]}} <a href="{{url_for('logout')}}" class="mx-3 " style="color: red;" >cerrar</a> </span></li>
 		 <div class="marca"></div>
 	   </ul>
 	  </div>

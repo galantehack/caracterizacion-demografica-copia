@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Moderno</title>
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+       
+        @import url('https://fonts.googleapis.com/css?family=Play');
+
+  
+
+  .main-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); /* Where the magic happens */
+    grid-auto-rows: 94px;
+    grid-gap: 20px;
+    margin: 20px;
+  }
+  .overviewcard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color:#ddd;
+    font-family:'Play', sans-serif;
+  }
+  .overviewcard:nth-child(1){
+      background-color:#f56954;
+  }
+  .overviewcard:nth-child(2){
+    background-color:#00a65a;
+}
+.overviewcard:nth-child(3){
+    background-color:#00c0ef;
+}
+.overviewcard:nth-child(4){
+    background-color:#0073b7;
+}
+
+.main-cards {
+    column-count: 2;
+    column-gap: 20px;
+    margin: 20px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #82bef6;
+    margin-bottom: 20px;
+    -webkit-column-break-inside: avoid;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  /* Force varying heights to simulate dynamic content */
+  .card:first-child {
+    height: 250px;
+  }
+  .card:nth-child(2) {
+    height: 100px;
+  }
+  .card:nth-child(3) {
+    height: 130px;
+  }
+
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Side nav is hidden on mobile */
+    grid-template-rows: 50px 1fr 50px;
+    grid-template-areas:
+      'header'
+      'main'
+      'footer';
+    height: 100vh;
+  }
+  
+  .sidenav {
+    display: none;
+    grid-area: sidenav;
+    background-color: #394263;
+  }
+  
+  .main-cards {
+    column-count: 1;
+    column-gap: 20px;
+    margin: 20px;
+  }
+  
+  /* Non-mobile styles, 750px breakpoint */
+  @media only screen and (min-width: 46.875em) {
+    /* Show the sidenav */
+    .grid-container {
+      grid-template-columns: 240px 1fr; /* Show the side nav for non-mobile screens */
+      grid-template-areas:
+        "sidenav header"
+        "sidenav main"
+        "sidenav footer";
+    }
+    .sidenav {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  /* Medium-sized screen breakpoint (tablet, 1050px) */
+  @media only screen and (min-width: 65.625em) {
+    /* Break out main cards into two columns */
+    .main-cards {
+      column-count: 2;
+    }
+  }
+
+  .menu-icon {
+    position: fixed;
+    display: flex;
+    top: 5px;
+    left: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+    padding: 12px;
+    background-color: #DADAE3;
+  }
+  
+  /* Make room for the menu icon on mobile */
+  .header__search {
+    margin-left: 42px;
+  }
+  
+  /* Mobile-first side nav styles */
+  .sidenav {
+    grid-area: sidenav;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 240px;
+    position: fixed;
+    overflow-y: auto;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    z-index: 2; /* Needs to sit above the hamburger menu icon */
+    background-color: #394263;
+    transform: translateX(-245px);
+    transition: all .6s ease-in-out;
+  }
+  
+  /* The active class is toggled on hamburger and close icon clicks */
+  .sidenav.active {
+    transform: translateX(0);
+  }
+  
+  /* Only visible on mobile screens */
+  .sidenav__close-icon {
+    position: absolute;
+    visibility: visible;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ddd;
+  }
+  
+  /* Non-mobile styles for side nav responsiveness, 750px breakpoint */
+  @media only screen and (min-width: 46.875em) {
+    .sidenav {
+      position: relative; /* Fixed position on mobile */
+      transform: translateX(0);
+    }
+  
+    .sidenav__close-icon {
+      visibility: hidden;
+    }
+  }
+  
+    </style>
+</head>
+<body>
+  <div class="container">
+    
+    <div class="side-bar">
+       <span class="fecha">{{formatted_date }}  <!-- fecha actual  --></span> 
+        <div class="side-menu">
+           
+          <div class="brand">
+            
+            <b>ADMINISTRADOR</b>
+          </div>
+          
+          <div class="userauth">
+            <img src="https://placehold.it/70x70">
+            <div class="username"><span>usuario  |   {{session["usuario"]}} <a href="{{url_for('logout')}}" class="mx-3 " style="color: red;" >cerrar</a> </span></div>
+          </div>
+          
+          <div class="menubuttons">
+            <a href="/sidebar_miembros"><i class="material-icons">group</i> <p class="p">MIEMBROS</p> </a>
+            <a href="/sidebar_territorio"><i class="material-icons">move_to_inbox</i> <p class="p">TERRITORIO</p></a>
+            <a href="/sidebar_identidad"><i class="fas fa-building"></i> <p p class="p">IDENTIDAD CULTURAL</p></a>
+            <a href="/sidebar_desarrollo"><i class="material-icons">account_box</i> <p class="p">DESARROLLO SUSTENTABLE</p> </a>
+            <a href="/sidebar_vivienda"><i class="material-icons">credit_card</i> <p class="p">BUEN VIVIR - VIVIENDA</p></a>
+            <a href="/sidebar_saneamiento"><i class="material-icons">autorenew</i> <p  class="p">BUEN VIVIR -SANEAMIENTO BÁSICO</p></a>
+            <a href="/territorio"><i class="material-icons">group_add</i> <p  class="p">REGISTRAR ENCUESTA</p></a>
+          </div>
+          
+      </div>
+      
+      
+    </div>
+    <div class="contenedornuevo">
+        
+        <div class="main-header__heading">Hello User</div>
+                                    <div class="main-header__updates">Recent Items</div>
+                                  </div>
+
+                                  <div class="main-overview">
+                                        <div class="overviewcard">
+                                          <div class="overviewcard__icon">Overview</div>
+                                          <div class="overviewcard__info">Card</div>
+                                        </div>
+                                        <div class="overviewcard">
+                                          <div class="overviewcard__icon">Overview</div>
+                                          <div class="overviewcard__info">Card</div>
+                                        </div>
+                                        <div class="overviewcard">
+                                          <div class="overviewcard__icon">Overview</div>
+                                          <div class="overviewcard__info">Card</div>
+                                        </div>
+                                        <div class="overviewcard">
+                                          <div class="overviewcard__icon">Overview</div>
+                                          <div class="overviewcard__info">Card</div>
+                                        </div>
+                                      </div>
+
+                                      <div class="main-cards">
+                                            <div class="card">Card</div>
+                                            <div class="card">Card</div>
+                                            <div class="card">Card</div>
+                                          </div>
+                    </main>
+                    
+                </div>
+                
+</body>
+</html>

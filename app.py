@@ -6,6 +6,10 @@ import io
 import base64
 from functools import wraps
 from flask_login import login_required
+from datetime import datetime
+
+from datetime import datetime
+
 
 
 app = Flask(__name__,  static_folder='static')   # importante para que tome los estilos en la carpeta static
@@ -23,6 +27,8 @@ db = mysql.connector.connect (
 cursor = db.cursor()
 
 app.secret_key ="miclave"
+
+
 
 #funcion para crear el decorador para proteger las rutas 
 def admin_required(f):
@@ -1023,7 +1029,16 @@ def dashboard_1():
     # Codificar gráfica en base64
     grafica_base64_5 = base64.b64encode(buf.getvalue()).decode('utf-8')
     
-    return render_template("dashboard.html", miembros=total_usuarios, cantidad_hombres=cantidad_hombres, cantidad_mujeres=cantidad_mujeres, grafica_base64=grafica_base64, grafica_base642=grafica_base64_2, grafica_base64_3=grafica_base64_3, sexo_edad1=sexo_edad1, grafica_base64_4=grafica_base64_4, grafica_base64_5=grafica_base64_5 )
+    
+    
+    dates_list = [datetime.now(), datetime.now()]
+
+# Selecciona un objeto datetime específico
+    selected_date = dates_list[0]
+
+# Formatea la fecha
+    formatted_date = selected_date.strftime("%d/%B/%Y")
+    return render_template("dashboard.html", miembros=total_usuarios, cantidad_hombres=cantidad_hombres, cantidad_mujeres=cantidad_mujeres, grafica_base64=grafica_base64, grafica_base642=grafica_base64_2, grafica_base64_3=grafica_base64_3, sexo_edad1=sexo_edad1, grafica_base64_4=grafica_base64_4, grafica_base64_5=grafica_base64_5, formatted_date=formatted_date  )
  
 if __name__ == '__main__':
     app.run(debug=True)
